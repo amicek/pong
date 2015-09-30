@@ -1,0 +1,109 @@
+class Paddle {
+  float x, y;
+  float vy;
+  Paddle(float x1) {
+    y=random(height-120);
+    vy=3;
+    x=x1;
+  }
+  void draw() {
+    fill(0, 0, 0);
+    rect(x, y, 20, 120);
+  }
+  void step() {
+    if (keyPressed) {
+      if (key=='w') {
+        y=y-vy;
+      } else if (key=='s' ) {
+        y=y+vy;
+      } else {
+        y=y;
+      }
+    }
+  }
+}
+
+class Paddle2 {
+  float x, y;
+  float vy;
+  Paddle2(float x1) {
+    y=random(height-120);
+    vy=3;
+    x=x1;
+  }
+  void draw() {
+    fill(0, 0, 0);
+    rect(x, y, 20, 120);
+  }
+
+  void step() {
+    if (keyPressed) {
+      if (key == CODED) {
+        if (keyCode == UP) {
+          y=y-vy;
+        } else if (keyCode==DOWN ) {
+          y=y+vy;
+        } else {
+          y=y;
+        }
+      }
+    }
+  }
+}
+class Ball {
+  float x, y;
+  float vx, vy;
+  float radius;
+  color c;
+  Ball(color c1) {
+    x=50;
+    y=random(height);
+    radius=10;
+    vx=3;
+    vy=2;
+    c=c1;
+  }
+  void draw() {
+    fill(c);
+    ellipse(x, y, radius*2, radius*2);
+    textSize(12);
+    text("score", 10, 10);
+    text("player1:", 80, 10);
+    text("player2:", 160, 10);
+  }
+  void step() {
+    x=x+vx;
+    y=y+vy;
+    if (x+radius>p2.x && y>p2.y && y<p2.y+120) {
+      vx=-vx;
+    } else if (x-radius<p1.x+20 && y>p1.y && y<p1.y+120) {
+      vx=-vx;
+    } else if (y<radius||y>height-radius) {
+      vy=-vy;
+    }
+    if (x>width) {
+      text("1", 130, 10);
+    } else if (x<0) {
+      text("1", 210, 10);
+    }
+  }
+}
+Ball b; 
+Paddle2 p2; 
+Paddle p1;
+void setup() {
+  size(500, 500);
+  noStroke();
+  b=new Ball(color(255, 0, 0));
+  p2=new Paddle2(460);
+  p1=new Paddle(20);
+}
+void draw() {
+  background(255);
+  p1.draw();
+  b.draw();
+  p2.draw();
+  p1.step();
+  b.step();
+  p2.step();
+}
